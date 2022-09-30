@@ -304,11 +304,11 @@ class CalendarStrip extends Component {
     else {
       newState = {
         selectedDate,
-        ...this.createDays(this.state.startingDate, selectedDate),
+        ...this.createDays(this.state.startingDate, selectedDate, true),
       };
     }
-    this.setState(() => newState);
     const _selectedDate = selectedDate && selectedDate.clone();
+    this.setState(() => newState);
     this.props.onDateSelected && this.props.onDateSelected(_selectedDate);
   }
 
@@ -454,7 +454,7 @@ class CalendarStrip extends Component {
     }
   }
 
-  createDays = (startingDate, selectedDate = this.state.selectedDate) => {
+  createDays = (startingDate, selectedDate = this.state.selectedDate, skipWeekChange = false) => {
     const {
       numDaysInWeek,
       useIsoWeekday,
@@ -519,7 +519,7 @@ class CalendarStrip extends Component {
 
       const _weekStartDate = weekStartDate && weekStartDate.clone();
       const _weekEndDate = weekEndDate && weekEndDate.clone();
-      onWeekChanged && onWeekChanged(_weekStartDate, _weekEndDate);
+      !skipWeekChange && onWeekChanged && onWeekChanged(_weekStartDate, _weekEndDate);
     }
     // else Scroller sets weekStart/EndDate and fires onWeekChanged.
 
